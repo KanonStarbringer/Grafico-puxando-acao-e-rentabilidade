@@ -1,0 +1,34 @@
+import matplotlib.pyplot as plt
+import yfinance
+from datetime import datetime
+from datetime import timedelta
+
+#Puxando os dados do yfinance, primeiro
+um_ano_atras = datetime.now() - timedelta(days = 365)
+
+acao = str(input("Qual ação você quer ver o gráfico do último ano? "))
+
+acao = acao + ".SA"
+
+cotacao = yfinance.download(acao, um_ano_atras)['Adj Close']
+
+#Plotando a rentabilidade
+fig, ax = plt.subplots()
+
+rentabilidade = cotacao.iloc[-1]/cotacao.iloc[0] - 1
+
+if rentabilidade > 0:
+    
+    ax.plot(cotacao.index, cotacao.values)
+    ax.set_ylabel("Cotação não dá ré", labelpad = 15, fontsize = 12)
+    ax.set_xlabel("Sou sardinha olhando curto prazo", labelpad = 15, fontsize = 12)
+
+else:
+    
+    ax.plot(cotacao.index, cotacao.values)
+    ax.set_ylabel("Cotação afundando", labelpad = 15, fontsize = 12)
+    ax.set_xlabel("Sou sardinha olhando curto prazo", labelpad = 15, fontsize = 12)
+
+
+
+plt.show()
